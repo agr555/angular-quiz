@@ -1,0 +1,104 @@
+.form {
+  padding-top: 140px;
+  padding-bottom: 123px;
+
+  .container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    .form-content {
+      max-width: 504px;
+
+      .form-detail {
+        margin-top: 60px;
+        max-width: 485px;
+
+        .form-agree {
+          margin-top: 15px;
+          color: #333;
+          font-size: 12px;
+          line-height: normal; /*14px*/
+
+          input {
+            position: relative;
+            top: 2px;
+          }
+
+          input, label {
+            cursor: pointer;
+          }
+        }
+
+        .form-group {
+          border: 1px solid #C1BBBB;
+          background: #FFF;
+          padding: 12px 23px 13px;
+          width: 485px;
+          height: 74px;
+          box-sizing: border-box;
+          position: relative;
+          transition: 0.2s ease all;
+
+          /*:focus-within событие при наведении на инпут (тут  - появляется рамка)*/
+          &:focus-within {
+            border-left: 5px solid #6933DC;
+          }
+
+
+          .form-input {
+            border: 0;
+            outline: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            color: #6933DC;
+            font-family: "Museo Sans Cyrl Bold", sans-serif;
+            font-size: 18px;
+            line-height: normal; /*22px*/
+
+            &:focus ~ .form-label,
+            &t:not(:focus):valid ~ .form-label,
+            &:-webkit-autofill ~ .form-label,
+            {
+              top: 12px;
+            }
+
+            &:valid,
+            &:focus,
+            &:-webkit-autofill{
+              margin-top: 27px;
+              height: auto; /*тк инпут смещается и 100% уже выйдут из поля*/
+            }
+          }
+
+          .form-label {
+            color: #333;
+            font-size: 18px;
+            line-height: normal; /*22px*/
+            position: absolute;
+            left: 23px;
+            top: 26px;
+            transition: .2s ease all;
+          }
+        }
+      }
+
+      .form-link {
+        margin-top: 15px;
+        font-size: 12px;
+        line-height: 14px;
+      }
+
+      .form-button {
+        margin-top: 30px;
+      }
+    }
+  }
+}
+
+
+/*  ~  для соседнего элемента применить стили*/
+/*при наведении на поле ввода метка идет вверх, а также остается не в фокусе,
+если уже в поле что то введено (не возвр назад после ввода в инпут)*/
+

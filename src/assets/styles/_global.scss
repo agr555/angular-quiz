@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  font-family: "Museo Sans Cyrl", sans-serif;
+  color: #333333;
+}
+
+a {
+  color: #6933DC;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.button {
+  padding: 14px 35px;
+  border-radius: 6px;
+  background: #6933DC;
+  color: #FFF;
+  font-size: 17px;
+  font-style: normal;
+  line-height: normal;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+
+  &a { /*кнопка переделана в ссылку, а ссылка строчный элемент и стала занимать больше места, поэтому:*/
+    display: inline-block;
+  }
+
+  &:hover {
+    transition: .4s;
+    background: #32098a;
+  }
+
+  &:hover {
+    transition: .4s;
+    background: #32098a;
+  }
+
+  &:disabled {
+    background-color: #e2dfe7;
+    cursor: not-allowed;
+  }
+
+  &.button-transparent {
+    background: transparent;
+    color: #6933DC;
+    border: 1px solid #6933DC;
+
+    &:hover {
+      background: #6933DC;
+      color: white;
+    }
+
+    &:disabled {
+      background: transparent;
+      color: #e2dfe7;;
+      border: 1px solid #e2dfe7;
+    }
+  }
+}
+
+.common-title {
+  color: #333;
+  font-size: 48px;
+  font-family: "Museo Sans Cyrl Bold", sans-serif;
+  line-height: normal; /*//58px*/
+
+  span {
+    color: #6933DC;
+  }
+}
+
+.big-title {
+  color: #333;
+  font-family: "Museo Sans Cyrl Bold", sans-serif;
+  font-size: 54px;
+
+  span {
+    color: #6933DC;
+  }
+}
+

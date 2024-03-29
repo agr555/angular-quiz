@@ -8,6 +8,9 @@ import { FooterComponent } from './shared/layout/footer/footer.component';
 import { HeaderComponent } from './shared/layout/header/header.component';
 import { MainComponent } from './views/main/main.component';
 import {RouterModule} from "@angular/router";
+import {HttpClientModule} from "@angular/common/http";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -19,10 +22,13 @@ import {RouterModule} from "@angular/router";
   ],
   imports: [
     BrowserModule,
+    RouterModule,
+    HttpClientModule,
     AppRoutingModule,
-    RouterModule
+    MatSnackBarModule,
+    BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [  {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

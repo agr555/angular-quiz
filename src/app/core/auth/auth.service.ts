@@ -6,6 +6,7 @@ import {Observable, pipe, Subject, tap} from "rxjs";
 import {UserInfoType} from "../../../types/user-info.type";
 import {LogoutResponseType} from "../../../types/logout-response.type";
 import {SignupResponseType} from "../../../types/signup-response.type";
+import {RefreshResponseType} from "../../../types/refresh-response.type";
 
 @Injectable({
   providedIn: 'root'
@@ -30,19 +31,24 @@ export class AuthService {
       password: password
     })
       .pipe(
-      tap((data: LoginResponseType) => {
-        if (data.fullName && data.userId && data.accessToken && data.refreshToken) {
-          this.setUserInfo({
-            fullName: data.fullName,
-            userId: data.userId
-          });
-          this.setTokens(data.accessToken, data.refreshToken);
-        }
-      })
-    );
+        tap((data: LoginResponseType) => {
+          if (data.fullName && data.userId && data.accessToken && data.refreshToken) {
+            this.setUserInfo({
+              fullName: data.fullName,
+              userId: data.userId
+            });
+            this.setTokens(data.accessToken, data.refreshToken);
+          }
+        })
+      );
   }
 
-  signup(name: string, lastName: string, email: string, password: string): Observable<LoginResponseType> {
+  refresh(): Observable<RefreshResponseType> {
+    const refreshToken: string | null = localStorage.getItem(this.refreshTokenKey);
+    return this.http.post<RefreshResponseType>(environment.apiHost + 'refresh' ,  {refreshToken});
+  }
+
+  signup(name: string, lastName: string, email: string, password: string): Observable<SignupResponseType> {
     return this.http.post<SignupResponseType>(environment.apiHost + 'signup', {
       name,
       lastName,
@@ -96,6 +102,13 @@ export class AuthService {
       return email;
     }
     return null;
+  }
+
+  public getTokens(): { accessToken: string | null, refreshToken: string | null } {
+    return {
+      accessToken: localStorage.getItem(this.accessTokenKey),
+      refreshToken: localStorage.getItem(this.refreshTokenKey)
+    }
   }
 
   public getUserInfo(): UserInfoType | null {

@@ -5,12 +5,12 @@
       <div class="choice-description">Чтобы начать тест, выберите одну из предложенных ниже тем.</div>
       <div class="choice-options" id="choice-options">
 
-        <div class="choice-option" data-id="1">
-          <div class="choice-option-result">
+        <div class="choice-option" *ngFor="let quiz of quizzes" (click)="chooseQuiz(quiz.id)">
+          <div class="choice-option-result"  *ngIf="quiz.result">
             <div>Результат</div>
-            <div>3/5</div>
+            <div>{{quiz.result}}</div>
           </div>
-          <div class="choice-option-text">Тест №1. "JavaScript: Начальный уровень"
+          <div class="choice-option-text">{{quiz.name}}
             <div class="choice-option-arrow"><img src="/assets/images/arrow.png" alt="Arrow"></div>
           </div>
         </div>

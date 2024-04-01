@@ -4,30 +4,51 @@
       {{quiz.name}}
     </div>
     <div class="test-progress-bar" id="progress-bar">
+
+      <div class="test-progress-bar-item active" *ngFor="let item of this.quiz.questions; let y = index;"
+           [class.active]="currentQuestionIndex === (y + 1)" [class.complete]="currentQuestionIndex > (y + 1)">
+        <div class="test-progress-bar-item-circle"></div>
+        <div class="test-progress-bar-item-text">Вопрос {{y + 1}}</div>
+      </div>
     </div>
     <div class="test-question">
       <div class="test-question-title" id="title">
-        <span>Вопрос 2:</span> Тут должен быть текст вопроса?
+        <!--        <span>Вопрос 2:</span> Тут должен быть текст вопроса?-->
+        <!--        <span>Вопрос {{currentQuestionIndex}}:</span> {{quiz.questions[currentQuestionIndex-1].question}}-->
+        <span>Вопрос {{currentQuestionIndex}}:</span> {{activeQuestion.question}}
       </div>
       <div class="test-questions-options" id="options">
-
+        <div class="test-questions-option" *ngFor="let answer of activeQuestion.answers">
+          <!--          <input class="option-answer" id="answer-{{answer.id}}" type="radio" [(ngModel)]="chosenAnswerId" name="answer" value="{{answer.id}}">-->
+          <input class="option-answer" id="answer-{{answer.id}}" type="radio" [(ngModel)]="chosenAnswerId" name="answer"
+                 [value]="answer.id">
+          <label for="answer-{{answer.id}}">{{answer.answer}}</label>
+        </div>
       </div>
     </div>
 
     <div class="test-actions">
       <div class="test-previous-action">
-        <button class="button button-transparent" id="prev" disabled>Назад</button>
+        <!--        <button class="button button-transparent" id="prev" disabled>Назад</button>-->
+        <button class="button button-transparent" id="prev" [disabled]="currentQuestionIndex===1"
+                (click)="move(actionTestType.prev)">Назад
+        </button>
       </div>
       <div class="test-time">
         <div class="test-time-text">Осталось времени:</div>
         <div class="test-time-clock" id="timer">{{timerSeconds}}</div>
       </div>
       <div class="test-next-action">
-        <button class="button button-transparent" id="next" disabled>Дальше</button>
+        <!--        <button class="button button-transparent" id="next" disabled>Дальше</button>-->
+        <!--        <button class="button button-transparent" id="next" [disabled]="!chosenAnswerId">Дальше</button>-->
+        <button class="button button-transparent" id="next" [disabled]="!chosenAnswerId"
+                (click)="move(actionTestType.next)">
+          {{currentQuestionIndex === quiz.questions.length ? 'Завершить' : 'Дальше'}}
+        </button>
       </div>
     </div>
     <div class="pass-question">
-      <a href="javascript: void(0)" id="pass">Пропустить вопрос</a>
+      <a href="javascript: void(0)" id="pass" (click)="move(actionTestType.pass)">Пропустить вопрос</a>
       <img src="/assets/images/small-arrow.png" alt="Arrow bottom">
     </div>
   </div>

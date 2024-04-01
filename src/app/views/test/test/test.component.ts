@@ -4,6 +4,8 @@ import {TestService} from "../../../shared/services/test.service";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {QuizType} from "../../../../types/quiz.type";
+import {ActionTestType} from "../../../../types/action-test.type";
+import {UserResultType} from "../../../../types/user-result.type";
 
 @Component({
   selector: 'app-test',
@@ -14,6 +16,11 @@ export class TestComponent implements OnInit {
 quiz!: QuizType;
 timerSeconds = 59;
 private interval: number = 0;
+  currentQuestionIndex: number = 1;
+  chosenAnswerId: number | null = null    ;
+  readonly userResult: UserResultType [] = [];
+  actionTestType =  ActionTestType;
+  y: number = 0;
   constructor(private  activateRoute: ActivatedRoute, private testService: TestService,
               private _snackBar: MatSnackBar,  private router: Router) { }
 
@@ -34,11 +41,14 @@ private interval: number = 0;
       }
     })
   }
+  get activeQuestion(){
+    return this.quiz.questions[this.currentQuestionIndex-1]
+  }
   startQuiz():void{
-    //progress bar
-    //show questions
 
-    this.interval = window.setInterval( () => {
+
+    //временно уберем таймер
+      this.interval = window.setInterval( () => {
       this.timerSeconds--;
        if (this.timerSeconds === 0) {
         clearInterval(this.interval);
@@ -47,6 +57,41 @@ private interval: number = 0;
     }, 1000);
   }
   complete(): void{
+
+  }
+
+   move(action:ActionTestType): void {
+     const existingResult: UserResultType | undefined = this.userResult.find(item => {
+      return item.questionId === this.activeQuestion.id;
+    });
+    if(this.chosenAnswerId){
+      if (existingResult) {
+        existingResult.chosenAnswerId = this.chosenAnswerId;
+      } else {
+        this.userResult.push({
+          questionId: this.activeQuestion.id,
+          chosenAnswerId: this.chosenAnswerId
+        })
+      }
+    }
+    //   console.log(this.userResult);
+    if (action === ActionTestType.next || action === ActionTestType.pass) {
+      this.currentQuestionIndex++;
+    } else {
+      this.currentQuestionIndex--;
+    }
+    const currentResult: UserResultType | undefined = this.userResult.find(item =>{
+      return item.questionId === this.activeQuestion.id;
+    });
+    if(currentResult){
+      this.chosenAnswerId = currentResult.chosenAnswerId;
+
+    }
+    if (this.currentQuestionIndex > this.quiz.questions.length) {
+      clearInterval(this.interval);
+      this.complete();
+      return;
+    }
 
   }
 }

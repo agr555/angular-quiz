@@ -1,0 +1,176 @@
+.test {
+  padding-top: 20px;
+  padding-bottom: 50px;
+
+  .test-pre-title {
+    color: #DCDCF3;
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .test-progress-bar {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 80px;
+
+    .test-progress-bar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+
+      &:not(:first-child) { /*для всех, кроме 1*/
+        margin-left: 130px;
+      }
+
+      &:not(:last-child)::before { /*для всех, кроме последнего*/
+        content: "";
+        z-index: -1;
+        position: absolute;
+        width: 184px;
+        background: #DCDCF3;
+        height: 6px;
+        left: 28px;
+        top: 10px;
+      }
+      &.complete:not(:last-child)::before { /*еще и класс .complete*/
+        background: #6933DC;
+      }
+
+      .test-progress-bar-item-circle {
+        width: 26px;
+        height: 26px;
+        background: #DCDCF3;
+        border-radius: 50%;
+      }
+
+      .test-progress-bar-item-text {
+        font-size: 13px;
+        line-height: normal;
+        margin-top: 10px;
+      }
+      &.complete .test-progress-bar-item-circle,
+      &.active .test-progress-bar-item-circle { /*еще и класс .complete*/
+        background: #6933DC;
+      }
+
+      &.active::after { /*еще и класс .active*/
+        content: "";
+        z-index: 1;
+        position: absolute;
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+        top: 6px;
+        background: #DCDCF3;
+      }
+    }
+  }
+
+  .test-question-title {
+    font-family: "Museo Sans Cyrl Bold", sans-serif;
+    font-size: 36px;
+    line-height: normal; /*43px*/
+    span {
+      color: #6933DC;
+    }
+  }
+
+  .test-questions-options {
+    margin-top: 40px; /*58*/
+    min-height: 356px; /*344px;*/
+
+    .test-questions-option {
+      font-size: 20px;
+      line-height: normal;
+      margin-bottom: 20px;
+      display: flex;
+
+      label {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .test-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .test-time {
+      display: flex;
+      align-items: center;
+
+      .test-time-text {
+        color: #6933DC;
+        font-size: 17px;
+        line-height: normal;
+        margin-right: 15px;
+      }
+
+      .test-time-clock {
+        background-image: url("../../../../assets/images/time.png");
+        background-size: cover;
+        background-position: center;
+        width: 27px;
+        height: 29px;
+        font-size: 10px;
+        text-align: center;
+        line-height: 28px; /*подбираем вручную для выравнивания по высоте*/
+      }
+    }
+  }
+
+  .pass-question {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+
+    a {
+      color: #6933DC;
+      font-size: 17px;
+      line-height: normal;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      margin-right: 13px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      img {
+        margin-left: 13px; ///---не было!
+      }
+    }
+  }
+
+  /* блок замены кружка на свой в radio button*/
+  input[type="radio"] {
+    appearance: none; /*убрать стандартный кружок*/
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid #6933DC;
+    margin: 0 13px 0 0;
+    transform: translateY(2px); /*опустить на 2 пикселя вниз*/
+    display: grid;
+    place-content: center;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      box-shadow: inset 10px 10px #6933DC;
+      transition: .2s ease transform; /*плавно для трансформ*/
+      transform: scale(0); /*сначала кружка нет*/
+    }
+    &:checked::before {
+      transform: scale(1); /*кружок есть*/
+    }
+
+  }
+
+}

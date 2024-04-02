@@ -1,0 +1,60 @@
+.result{
+  padding-top: 40px;
+  padding-bottom: 91px;
+  text-align: center;
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .result-image{
+      position: absolute;
+      top: 85px; /*225px;*/
+      z-index: -1;
+    }
+    .result-title{
+      max-width: 588px;
+      margin-bottom: 60px;
+    }
+    .result-score{
+      background-image: url("../../../../assets/images/result.png");
+      background-size: cover;
+      background-position: center;
+      width: 480px;
+      height: 388px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: "Museo Sans Cyrl Bold", sans-serif;
+      font-size: 158px;
+      line-height: normal;/*190px*/
+      color: #FFF;
+    }
+  }
+}
+
+
+.result-see {
+  margin-top: 80px;
+  margin-right: 144px;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+
+.result-see a {
+  text-decoration: none;
+  color: #6933DC;
+  font-size: 17px;
+  line-height: normal;
+  margin-right: 13px;
+}
+
+.result-see a:hover {
+  text-decoration: underline;
+}

@@ -6,6 +6,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {QuizType} from "../../../../types/quiz.type";
 import {ActionTestType} from "../../../../types/action-test.type";
 import {UserResultType} from "../../../../types/user-result.type";
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
   selector: 'app-test',
@@ -22,7 +23,7 @@ private interval: number = 0;
   actionTestType =  ActionTestType;
   y: number = 0;
   constructor(private  activateRoute: ActivatedRoute, private testService: TestService,
-              private _snackBar: MatSnackBar,  private router: Router) { }
+              private _snackBar: MatSnackBar,  private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.activateRoute.params.subscribe(params =>{
@@ -57,7 +58,20 @@ private interval: number = 0;
     }, 1000);
   }
   complete(): void{
-
+    console.log(this.userResult);
+    const userInfo = this.authService.getUserInfo();
+    if(userInfo) {
+      this.testService.passQuiz(this.quiz.id,userInfo.userId, this.userResult)
+        .subscribe(result =>{
+          if (result) {
+            if ((result as DefaultResponseType).error !== undefined) {
+              throw new Error((result as DefaultResponseType).message);
+            }
+            this.router.navigate(['/result'], {queryParams: {id: this.quiz.id}})
+            // location.href = '#/result?id=' + this.routeParams.id;
+          }
+        })
+    }
   }
 
    move(action:ActionTestType): void {
@@ -76,10 +90,16 @@ private interval: number = 0;
     }
     //   console.log(this.userResult);
     if (action === ActionTestType.next || action === ActionTestType.pass) {
+      if (this.currentQuestionIndex === this.quiz.questions.length) {
+        clearInterval(this.interval);
+        this.complete();
+        return;
+      }
       this.currentQuestionIndex++;
     } else {
       this.currentQuestionIndex--;
     }
+
     const currentResult: UserResultType | undefined = this.userResult.find(item =>{
       return item.questionId === this.activeQuestion.id;
     });
@@ -87,11 +107,7 @@ private interval: number = 0;
       this.chosenAnswerId = currentResult.chosenAnswerId;
 
     }
-    if (this.currentQuestionIndex > this.quiz.questions.length) {
-      clearInterval(this.interval);
-      this.complete();
-      return;
-    }
+
 
   }
 }
